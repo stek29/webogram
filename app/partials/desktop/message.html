@@ -41,7 +41,10 @@
         <span class="im_message_date clickable">
           <span class="im_message_edited" my-message-edited="historyMessage.mid"></span>
           <span class="im_message_date_text nocopy" data-content="{{::historyMessage.date | time}}"></span>
+          <br>
+          <span class="im_message_id hasselect">{{:: historyMessage.id }}</span>
         </span>
+        <br>
       </div>
 
       <div class="im_message_body" ng-class="::{im_message_body_media: historyMessage._ == 'message' &amp;&amp; historyMessage.media ? true : false}">
@@ -78,4 +81,3 @@
   </div>
 
 </div>
-
