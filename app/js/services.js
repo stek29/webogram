@@ -4382,12 +4382,12 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
       var $scope = $rootScope.$new()
       $scope.lastVersion = lastVersion
 
-      $modal.open({
-        controller: 'ChangelogModalController',
-        templateUrl: templateUrl('changelog_modal'),
-        scope: $scope,
-        windowClass: 'changelog_modal_window mobile_modal'
-      })
+      // $modal.open({
+      //   controller: 'ChangelogModalController',
+      //   templateUrl: templateUrl('changelog_modal'),
+      //   scope: $scope,
+      //   windowClass: 'changelog_modal_window mobile_modal'
+      // })
     }
 
     return {
