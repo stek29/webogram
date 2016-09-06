@@ -235,6 +235,8 @@ angular.module('myApp.services')
     }
 
     function getTopMessages (limit) {
+      if (MtpApiManager.isBotAuth()) return;
+
       var first = true
       var dialogs = dialogsStorage.dialogs
       var offsetDate = 0
@@ -1159,7 +1161,13 @@ angular.module('myApp.services')
       }
 
       var apiPromise
-      if (isChannel) {
+
+      if (MtpApiManager.isBotAuth()) {
+        // I'm lazy to make proper empty promise
+        apiPromise = {
+          'then': function(func) { func(); }
+        }
+      } else if (isChannel) {
         apiPromise = MtpApiManager.invokeApi('channels.readHistory', {
           channel: AppChatsManager.getChannelInput(-peerID),
           max_id: 0
@@ -3555,6 +3563,8 @@ angular.module('myApp.services')
     })
 
     function reloadConversation (peerID) {
+      if (MtpApiManager.isBotAuth()) return;
+      
       return MtpApiManager.invokeApi('messages.getPeerDialogs', {
         peers: [
           AppPeersManager.getInputPeerByID(peerID)
