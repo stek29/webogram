@@ -574,7 +574,7 @@ angular.module('myApp.controllers', ['myApp.i18n'])
     $scope.search = {}
     $scope.historyFilter = {mediaType: false}
     $scope.historyPeer = {}
-    $scope.auth = {isBot: MtpApiManager.isBotAuth()}
+    $scope.auth = {isBot: MtpApiManager.getIsBotAuth()}
     $scope.historyState = {
       selectActions: false,
       botActions: false,
@@ -589,6 +589,10 @@ angular.module('myApp.controllers', ['myApp.i18n'])
       missedCount: 0,
       skipped: false
     }
+
+    setTimeout(function () {
+      $scope.auth.isBot = MtpApiManager.getIsBotAuth()
+    }, 500)
 
     $scope.openSettings = function () {
       $modal.open({

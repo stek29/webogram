@@ -235,7 +235,9 @@ angular.module('myApp.services')
     }
 
     function getTopMessages (limit) {
-      if (MtpApiManager.isBotAuth()) return;
+      if (MtpApiManager.getIsBotAuth()) {
+        return false
+      }
 
       var first = true
       var dialogs = dialogsStorage.dialogs
@@ -281,6 +283,8 @@ angular.module('myApp.services')
             incrementMaxSeenID(dialog.top_message)
             maxSeenIdIncremented = true
           }
+        }, function (error) {
+          error.handled = true
         })
         dialogsResult.dialogs.reverse()
 
@@ -1162,7 +1166,7 @@ angular.module('myApp.services')
 
       var apiPromise
 
-      if (MtpApiManager.isBotAuth()) {
+      if (MtpApiManager.getIsBotAuth()) {
         // I'm lazy to make proper empty promise
         apiPromise = {
           'then': function(func) { func(); }
@@ -3563,8 +3567,10 @@ angular.module('myApp.services')
     })
 
     function reloadConversation (peerID) {
-      if (MtpApiManager.isBotAuth()) return;
-      
+      if (MtpApiManager.getIsBotAuth()) {
+        return false
+      }
+
       return MtpApiManager.invokeApi('messages.getPeerDialogs', {
         peers: [
           AppPeersManager.getInputPeerByID(peerID)
