@@ -343,7 +343,9 @@ angular.module('myApp.controllers', ['myApp.i18n'])
 
       $scope.progress.forceSignUp = forceSignUp
       $scope.progress.enabled = true
-      MtpApiManager.invokeApi(method, params, options).then(saveAuth, function (error) {
+      MtpApiManager.invokeApi(method, params, options).then(function (result) {
+        saveAuth(result, false)
+      }, function (error) {
         $scope.progress.enabled = false
         if (error.code == 400 && error.type == 'PHONE_NUMBER_UNOCCUPIED') {
           error.handled = true
@@ -390,8 +392,9 @@ angular.module('myApp.controllers', ['myApp.i18n'])
 
     $scope.checkPassword = function () {
       $scope.progress.enabled = true
-      return PasswordManager.check($scope.password, $scope.credentials.password, options).then(saveAuth, function (error) {
-        $scope.progress.enabled = false
+      return PasswordManager.check($scope.password, $scope.credentials.password, options).then(function (result) {
+        saveAuth(result, false)
+      }, function (error) {
         switch (error.type) {
           case 'PASSWORD_HASH_INVALID':
             $scope.error = {field: 'password'}
@@ -415,7 +418,7 @@ angular.module('myApp.controllers', ['myApp.i18n'])
 
         modal.result.then(function (result) {
           if (result && result.user) {
-            saveAuth(result)
+            saveAuth(result, false)
           } else {
             $scope.canReset = true
           }
