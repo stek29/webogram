@@ -486,11 +486,15 @@ angular.module('myApp.controllers', ['myApp.i18n'])
   })
 
   .controller('ApiPlaygroundModalController', function ($scope, $rootScope, $location, $timeout, $modal, $modalStack, MtpApiManager, ErrorService, NotificationsManager, PasswordManager, ChangelogNotifyService, IdleManager, LayoutSwitchService, TelegramMeWebService, _) {
-    $scope.apiCall = {
-      "function": "",
-      payload: "{ }",
-      result: "Press \"Fire Call\" at the bottom of this modal to fire the API call. Result will appear here."
+    if ($rootScope.PlaygroundUglyApiCall === undefined) {
+      $rootScope.PlaygroundUglyApiCall = {
+        "function": "",
+        payload: "{ }",
+        result: "Press \"Fire Call\" at the bottom of this modal to fire the API call. Result will appear here."
+      }
     }
+
+    $scope.apiCall = $rootScope.PlaygroundUglyApiCall
 
     $scope.config = {
       layer: Config.Schema.API.layer
