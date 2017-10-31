@@ -80,7 +80,7 @@ self.addEventListener('activate', function(event) {
 
 
 self.addEventListener('message', function(event) {
-  console.log('[SW] on message', event.data)
+  // console.log('[SW] on message', event.data)
   var client = event.ports && event.ports[0] || event.source
   if (event.data.type == 'ping') {
     if (event.data.localNotifications) {
