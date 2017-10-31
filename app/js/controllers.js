@@ -492,6 +492,12 @@ angular.module('myApp.controllers', ['myApp.i18n'])
       result: "Press \"Fire Call\" at the bottom of this modal to fire the API call. Result will appear here."
     }
 
+    $scope.config = {
+      layer: Config.Schema.API.layer
+    }
+
+    $scope.config.url = 'https://stek29.rocks/tl-schema/l' + $scope.config.layer + '/'
+
     $scope.findApiFunction = function () {
       var matches = Config.Schema.API.methods.filter(function (method) {
         if(method.method === $scope.apiCall.function) return true
@@ -521,7 +527,7 @@ angular.module('myApp.controllers', ['myApp.i18n'])
     }
 
     $scope.openSchema = function () {
-      window.open("https://core.telegram.org/schema", "_blank")
+      window.open($scope.config.url, "_blank")
     }
   })
 
