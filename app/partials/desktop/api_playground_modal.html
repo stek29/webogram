@@ -19,11 +19,17 @@
       </div>
 
       <div class="api_function_description" ng-hide="!apiCall.details">
-        <h5>Takes <strong>{{ apiCall.details.params.length }}</strong> parameters, returns <strong>{{ apiCall.details.type }}</strong>.</h5>
+        <h5>
+          Takes <strong>{{ apiCall.details.params.length }}</strong> parameters
+          <br>
+          Returns <a href="{{ apiCall.details.typeLink }}">
+            <strong>{{ apiCall.details.type }}</strong>
+          </a>
+        </h5>
 
         <div class="api_function_parameters">
           <div class="api_function_parameter" ng-repeat="param in apiCall.details.params">
-            <b>{{ param.name }}</b>: {{ param.type }}
+            <b>{{ param.name }}</b>: <a href="{{ param.typeLink }}"> {{ param.type }} </a>
           </div>
         </div>
 

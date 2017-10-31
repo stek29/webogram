@@ -505,6 +505,12 @@ angular.module('myApp.controllers', ['myApp.i18n'])
 
       if(matches.length > 0){
         var match = matches[0]
+
+        match.typeLink = $scope.getLinkForType(match.type)
+        match.params.forEach(function(param) {
+          param.typeLink = $scope.getLinkForType(param.type);
+        })
+
         $scope.apiCall.details = match
       }
     }
@@ -528,6 +534,12 @@ angular.module('myApp.controllers', ['myApp.i18n'])
 
     $scope.openSchema = function () {
       window.open($scope.config.url, "_blank")
+    }
+
+    $scope.getLinkForType = function (tltype) {
+      tltype = (tltype.match(/Vector<(.*)>/) || [null, tltype])[1];
+      tltype = tltype.split('?').pop()
+      return $scope.config.url + 'type/' + tltype
     }
   })
 
