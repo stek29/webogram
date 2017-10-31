@@ -17,9 +17,9 @@
         <a ng-switch-default ng-click="openPhoto(chatFull.chat_photo.id, {p: -chatFull.chat.id})" class="peer_modal_photo" my-peer-photolink="::-chatFull.chat.id" img-class="peer_modal_photo" no-open="true" watch="true" ng-class="{disabled: !chatFull.chat.photo.photo_small}" ng-disabled="!chatFull.chat.photo.photo_small"></a>
       </div>
       <div class="peer_modal_profile">
-        <div class="peer_modal_profile_name" my-peer-link="-chatFull.chat.id"></div>
-        <div class="peer_modal_chat_id">Chat ID: {{ chatFull.chat.id }}</div>
-        <div class="peer_modal_access_hash">Access Hash: {{ chatFull.chat.access_hash }}</div>
+        <div class="peer_modal_profile_name" my-peer-link="-chatFull.chat.id"></div>        
+        <div class="peer_modal_id">Chat ID: {{ ::chatFull.chat.id }}</div>
+        <pre class="peer_modal_json" contenteditable>"chat_id": {{ ::chatFull.chat.id }}</pre>
         <div class="peer_modal_profile_description" ng-if="chatFull.chat.participants_count > 0">
           <ng-pluralize count="chatFull.chat.participants_count"
                         when="group_modal_pluralize_participants">
