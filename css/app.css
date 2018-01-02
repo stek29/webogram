@@ -1322,6 +1322,36 @@ a.im_dialog_selected .im_dialog_date {
   bottom: 0;
   width: 100%;
 }
+.im_history_pinned_wrap {
+  padding: 7px 10px 7px 20px;
+  border-bottom: 1px solid #E9EBED;
+}
+.im_history_pinned_message {
+  cursor: pointer;
+}
+.im_history_pinned_message:hover {
+  text-decoration: none;
+}
+.im_history_pinned_hide {
+  float: right;
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin-right: 6px;
+  margin-top: 11px;
+  -webkit-transform: translate3d(0, 0, 0);
+  padding-top: 7px;
+}
+.im_history_pinned_hide .icon-reply-bar {
+  display: block;
+  background: #999;
+  width: 18px;
+  height: 2px;
+  transform-origin: 50% 50%;
+}
+.im_history_pinned_hide:hover .icon-reply-bar {
+  background: #44a1e8;
+}
 .im_history {
   padding: 0;
   position: relative;
@@ -1360,6 +1390,11 @@ a.im_dialog_selected .im_dialog_date {
 }
 .im_message_fwd_via {
   margin-left: 0;
+}
+.im_message_author_admin {
+  color: #adadad;
+  margin-left: 6px;
+  font-size: 11px;
 }
 .im_message_from_photo,
 .im_message_contact_photo,
@@ -1437,21 +1472,14 @@ div.im_message_video_thumb {
   display: inline-block;
   top: 50%;
   left: 50%;
-  margin-left: -21px;
-  margin-top: -21px;
-  width: 42px;
-  height: 42px;
+  margin-left: -5px;
+  margin-top: -9px;
   z-index: 1;
-  background-image: url(../img/icons/IconsetW.png);
-  background-repeat: no-repeat;
-  background-position: 0 -590px;
-}
-.is_2x .icon-videoplay {
-  background-image: url(../img/icons/IconsetW_2x.png);
-  background-size: 42px 1171px;
-}
-.is_2x .icon-videoplay {
-  background-position: 0 -591px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 9px 0 9px 14px;
+  border-color: transparent transparent transparent #fff;
 }
 .im_message_geopoint {
   border-radius: 2px;
@@ -1572,6 +1600,10 @@ div.im_message_video_thumb {
 }
 .im_message_gif_wrap {
   position: relative;
+}
+.img_gif_with_progress_wrap {
+  display: inline-block;
+  line-height: 0;
 }
 .im_message_gif_btn {
   color: #fff;
@@ -3741,6 +3773,7 @@ img.chat_modal_participant_photo {
   max-width: 348px;
 }
 .im_message_focus_active .im_message_date,
+.im_message_focus_active .im_message_author_admin,
 .im_message_focus_active .im_message_document_size,
 .im_message_focus_active .audio_player_duration,
 .im_message_focus_active .audio_player_size,
@@ -3927,10 +3960,15 @@ a.peer_photo_init:focus {
   opacity: 1;
 }
 /* Round documents */
+.img_round_with_progress_wrap {
+  display: inline-block;
+  line-height: 0;
+}
 .img_round_image_wrap {
   position: relative;
-  border-radius: 50%;
   overflow: hidden;
+  border-radius: 50%;
+  -webkit-transform: translateZ(0);
 }
 .img_round_meta {
   background: rgba(0, 0, 0, 0.4);
@@ -3947,6 +3985,9 @@ a.peer_photo_init:focus {
   margin-left: -20px;
   margin-top: -20px;
   pointer-events: none;
+}
+.img_round_video_unread .img_round_meta {
+  background: rgba(100, 144, 177, 0.6);
 }
 .icon-cancel {
   position: absolute;
