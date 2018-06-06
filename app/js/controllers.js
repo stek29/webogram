@@ -3828,24 +3828,49 @@ angular.module('myApp.controllers', ['myApp.i18n'])
     $scope.user = AppUsersManager.getUser($scope.userID)
     $scope.blocked = false
 
-    $scope.settings = {notifications: true}
+    $scope.settings = {
+      notifications: true,
+      mute_until: 0,
+      show_previews: true,
+      silent: false,
+      sound: "",
+    }
 
     AppProfileManager.getProfile($scope.userID, $scope.override).then(function (userFull) {
       $scope.blocked = userFull.pFlags.blocked
       $scope.bot_info = userFull.bot_info
       $scope.rAbout = userFull.rAbout
 
-      NotificationsManager.getPeerMuted($scope.userID).then(function (muted) {
-        $scope.settings.notifications = !muted
+
+      NotificationsManager.getPeerSettings($scope.userID).then(function (settings) {
+        $scope.settings.notifications = settings.mute_until*1000 <= tsNow()
+        $scope.settings.mute_until = settings.mute_until
+        $scope.settings.show_previews = settings.pFlags.show_previews
+        $scope.settings.silent = settings.pFlags.silent
+        $scope.settings.sound = settings.sound
+
+        $scope.applySettings = function() {
+          var flags = 0
+
+          if ($scope.settings.show_previews) {
+            flags |= 1
+          }
+          if ($scope.settings.silent) {
+            flags |= 2
+          }
+
+          NotificationsManager.updatePeerSettings($scope.userID, {
+            flags: flags,
+            mute_until: $scope.settings.mute_until,
+            sound: $scope.settings.sound
+          })
+        }
 
         $scope.$watch('settings.notifications', function (newValue, oldValue) {
           if (newValue === oldValue) {
             return false
           }
-          NotificationsManager.getPeerSettings($scope.userID).then(function (settings) {
-            settings.mute_until = newValue ? 0 : 2000000000
-            NotificationsManager.updatePeerSettings($scope.userID, settings)
-          })
+          $scope.applySettings();
         })
       })
     })
@@ -3938,7 +3963,13 @@ angular.module('myApp.controllers', ['myApp.i18n'])
 
   .controller('ChatModalController', function ($scope, $modalInstance, $location, $timeout, $rootScope, $modal, AppUsersManager, AppChatsManager, AppProfileManager, AppPhotosManager, MtpApiManager, MtpApiFileManager, NotificationsManager, AppMessagesManager, AppPeersManager, ApiUpdatesManager, ContactsSelectService, ErrorService) {
     $scope.chatFull = AppChatsManager.wrapForFull($scope.chatID, {})
-    $scope.settings = {notifications: true}
+    $scope.settings = {
+      notifications: true,
+      mute_until: 0,
+      show_previews: true,
+      silent: false,
+      sound: "",
+    }
 
     $scope.maxParticipants = 200
 
@@ -3955,21 +3986,34 @@ angular.module('myApp.controllers', ['myApp.i18n'])
         $scope.needMigrate = true
       }
 
-      NotificationsManager.getPeerMuted(-$scope.chatID).then(function (muted) {
-        $scope.settings.notifications = !muted
+      NotificationsManager.getPeerSettings(-$scope.chatID).then(function (settings) {
+        $scope.settings.notifications = settings.mute_until*1000 <= tsNow()
+        $scope.settings.mute_until = settings.mute_until
+        $scope.settings.show_previews = settings.pFlags.show_previews
+        $scope.settings.silent = settings.pFlags.silent
+        $scope.settings.sound = settings.sound
+
+        $scope.applySettings = function() {
+          var flags = 0
+          if ($scope.settings.show_previews) {
+            flags |= 1
+          }
+          if ($scope.settings.silent) {
+            flags |= 2
+          }
+
+          NotificationsManager.updatePeerSettings(-$scope.chatID, {
+            flags: flags,
+            mute_until: $scope.settings.mute_until,
+            sound: $scope.settings.sound
+          })
+        }
 
         $scope.$watch('settings.notifications', function (newValue, oldValue) {
           if (newValue === oldValue) {
             return false
           }
-          NotificationsManager.getPeerSettings(-$scope.chatID).then(function (settings) {
-            if (newValue) {
-              settings.mute_until = 0
-            } else {
-              settings.mute_until = 2000000000
-            }
-            NotificationsManager.updatePeerSettings(-$scope.chatID, settings)
-          })
+          $scope.applySettings();
         })
       })
     })
@@ -4106,28 +4150,47 @@ angular.module('myApp.controllers', ['myApp.i18n'])
 
   .controller('ChannelModalController', function ($scope, $timeout, $rootScope, $modal, AppUsersManager, AppChatsManager, AppProfileManager, AppPhotosManager, MtpApiManager, MtpApiFileManager, NotificationsManager, AppMessagesManager, AppPeersManager, ApiUpdatesManager, ContactsSelectService, ErrorService) {
     $scope.chatFull = AppChatsManager.wrapForFull($scope.chatID, {})
-    $scope.settings = {notifications: true}
+    $scope.settings = {
+      notifications: true,
+      mute_until: 0,
+      show_previews: true,
+      silent: false,
+      sound: "",
+    }
     $scope.isMegagroup = AppChatsManager.isMegagroup($scope.chatID)
 
     AppProfileManager.getChannelFull($scope.chatID, true).then(function (chatFull) {
       $scope.chatFull = AppChatsManager.wrapForFull($scope.chatID, chatFull)
       $scope.$broadcast('ui_height')
 
-      NotificationsManager.getPeerMuted(-$scope.chatID).then(function (muted) {
-        $scope.settings.notifications = !muted
+      NotificationsManager.getPeerSettings(-$scope.chatID).then(function (settings) {
+        $scope.settings.notifications = settings.mute_until*1000 <= tsNow()
+        $scope.settings.mute_until = settings.mute_until
+        $scope.settings.show_previews = settings.pFlags.show_previews
+        $scope.settings.silent = settings.pFlags.silent
+        $scope.settings.sound = settings.sound
+
+        $scope.applySettings = function() {
+          var flags = 0
+          if ($scope.settings.show_previews) {
+            flags |= 1
+          }
+          if ($scope.settings.silent) {
+            flags |= 2
+          }
+
+          NotificationsManager.updatePeerSettings(-$scope.chatID, {
+            flags: flags,
+            mute_until: $scope.settings.mute_until,
+            sound: $scope.settings.sound
+          })
+        }
 
         $scope.$watch('settings.notifications', function (newValue, oldValue) {
           if (newValue === oldValue) {
             return false
           }
-          NotificationsManager.getPeerSettings(-$scope.chatID).then(function (settings) {
-            if (newValue) {
-              settings.mute_until = 0
-            } else {
-              settings.mute_until = 2000000000
-            }
-            NotificationsManager.updatePeerSettings(-$scope.chatID, settings)
-          })
+          $scope.applySettings();
         })
       })
 

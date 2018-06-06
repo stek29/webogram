@@ -107,6 +107,30 @@
           <span class="tg_checkbox_label" my-i18n="group_modal_notifications"></span>
         </a>
 
+        <a class="md_modal_section_toggle_wrap tg_checkbox" ng-click="settings.show_previews = !settings.show_previews" ng-class="settings.show_previews ? 'tg_checkbox_on' : ''">
+          <span class="icon icon-checkbox-outer"><i class="icon-checkbox-inner"></i></span>
+          <span class="tg_checkbox_label">show_previews</span>
+        </a>
+
+        <a class="md_modal_section_toggle_wrap tg_checkbox" ng-click="settings.silent = !settings.silent" ng-class="settings.silent ? 'tg_checkbox_on' : ''">
+          <span class="icon icon-checkbox-outer"><i class="icon-checkbox-inner"></i></span>
+          <span class="tg_checkbox_label">silent</span>
+        </a>
+
+        <div class="md_modal_section_param_wrap">
+          <input class="md_modal_section_param_value" type="text" ng-model="settings.mute_until" />
+          <div class="md_modal_section_param_name">mute_until</div>
+        </div>
+        
+        <div class="md_modal_section_param_wrap">
+          <input class="md_modal_section_param_value" type="text" ng-model="settings.sound" />
+          <div class="md_modal_section_param_name">sound</div>
+        </div>
+
+        <div class="md_modal_section_link_wrap">
+          <a class="md_modal_section_link" ng-click="applySettings()">Apply settings</a>
+        </div>
+
       </div>
 
       <div class="md_modal_iconed_section_wrap md_modal_iconed_section_link" ng-if="isMegagroup && !chatFull.chat.username && !chatFull.chat.pFlags.left && !chatFull.chat.pFlags.kicked">
